@@ -9,7 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Builder
 @Entity
 @AllArgsConstructor
@@ -18,7 +19,7 @@ public class Fare implements Serializable {
 
     @Id
     @SequenceGenerator(name = "fare_sequence", sequenceName = "fare_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
 
     @Column(nullable = false)
@@ -26,10 +27,9 @@ public class Fare implements Serializable {
 
     private Double value;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "operator_id")
-    private Operator operatorCode;
-
     private LocalDate createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "operator_id")
+    private Operator operator;
 }

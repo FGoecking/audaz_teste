@@ -28,9 +28,4 @@ public class OperatorController {
     public ResponseEntity<List<OperatorDTO>> consultarTodos(){
         return new ResponseEntity<>(operatorService.consultarTodos(), HttpStatus.OK);
     }
-
-    @GetMapping("/{code}/code")
-    public ResponseEntity<OperatorDTO> consultarPorCode(@PathVariable String code){
-        return new ResponseEntity<>(operatorService.consultarPorCode(code), HttpStatus.OK);
-    }
 }

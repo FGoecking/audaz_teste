@@ -17,5 +17,5 @@ import java.util.List;
 public class OperatorDTO {
 
     private String code;
-    private List<Fare> fareList;
+    private List<FareDTO> fareList;
 }

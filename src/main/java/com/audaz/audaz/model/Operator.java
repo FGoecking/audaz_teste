@@ -12,7 +12,8 @@ import java.util.List;
 
 
 @Builder
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "operator")
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class Operator implements Serializable {
     @Column(nullable = false)
     private String code;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "operatorCode")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "operator", fetch = FetchType.LAZY)
     private List<Fare> fareList;
 }

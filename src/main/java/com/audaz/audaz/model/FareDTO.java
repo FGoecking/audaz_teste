@@ -20,7 +20,7 @@ public class FareDTO {
 
     private Double value;
 
-    private Operator operatorCode;
+    private String operatorCode;
 
     private LocalDate createdAt;
 }

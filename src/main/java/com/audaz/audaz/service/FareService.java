@@ -37,11 +37,13 @@ public class FareService {
 
         fare.setCreatedAt(LocalDate.now());
         fare.setStatus(Boolean.TRUE);
+        fare.setOperator(operatorService.consultarPorCode(fareDTO.getOperatorCode()));
 
-//        if(validarFare(fare)){
-//
-//            throw new Exception();
-//        }
+
+        if(validarFare(fare)){
+
+            throw new Exception();
+        }
         fareRepository.save(fare);
         return modelMapper.map(fare, FareDTO.class);
     }
@@ -60,27 +62,26 @@ public List<FareDTO> consultarTodos() {
     return fareDTOList;
 }
 
-//    private Boolean validarFare(Fare fare){
-//
-//        final Boolean[] validation = {Boolean.FALSE};
-//
-//        OperatorDTO operatorDTO= operatorService.consultarPorCode(fare.getOperatorCode().getCode());
-//
-//        Operator operator = modelMapper.map(operatorDTO, Operator.class);
-//        operator.getFareList().forEach(i -> {
-//            if(i.getValue() == fare.getValue()){
-//
-//                YearMonth fareCreatedat = YearMonth.from(i.getCreatedAt());
-//                YearMonth newFareDate = YearMonth.from(fare.getCreatedAt());
-//
-//                Long timeDiference = fareCreatedat.until(newFareDate, ChronoUnit.MONTHS) + 1;
-//
-//                if(timeDiference >= 6 || !i.getStatus()){
-//                    validation[0] = Boolean.TRUE;
-//                }
-//            }
-//        });
-//
-//        return validation[0];
-//    }
+    private Boolean validarFare(Fare fare){
+
+        final Boolean[] validation = {Boolean.FALSE};
+
+        Operator operator = fare.getOperator();
+
+        operator.getFareList().forEach(i -> {
+            if(i.getValue().doubleValue() == fare.getValue().doubleValue()){
+
+                YearMonth fareCreatedat = YearMonth.from(i.getCreatedAt());
+                YearMonth newFareDate = YearMonth.from(fare.getCreatedAt());
+
+                Long timeDiference = fareCreatedat.until(newFareDate, ChronoUnit.MONTHS) + 1;
+
+                if(timeDiference <= 6 || (i.getStatus() == Boolean.FALSE)){
+                    validation[0] = Boolean.TRUE;
+                }
+            }
+        });
+
+        return validation[0];
+    }
 }

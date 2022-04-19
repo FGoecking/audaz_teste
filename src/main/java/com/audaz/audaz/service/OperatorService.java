@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OperatorService {
@@ -41,8 +42,13 @@ public class OperatorService {
         return operatorDTOList;
     }
 
-    public OperatorDTO consultarPorCode(String code) {
+    public Operator consultarPorCode(String code) {
         Operator operator = operatorRepository.findByCode(code);
+        return operator;
+    }
+
+    public OperatorDTO consultarPorId(Long id) {
+        Optional<Operator> operator = operatorRepository.findById(id);
         return modelMapper.map(operator, OperatorDTO.class);
     }
 }
