@@ -1,5 +1,6 @@
 package com.audaz.audaz.service;
 
+import com.audaz.audaz.exception.InvalidFareException;
 import com.audaz.audaz.model.Fare;
 import com.audaz.audaz.model.FareDTO;
 import com.audaz.audaz.model.Operator;
@@ -41,9 +42,9 @@ public class FareService {
 
 
         if(validarFare(fare)){
-
-            throw new Exception();
+            throw new InvalidFareException("400", "Ivalid Fare.");
         }
+
         fareRepository.save(fare);
         return modelMapper.map(fare, FareDTO.class);
     }
